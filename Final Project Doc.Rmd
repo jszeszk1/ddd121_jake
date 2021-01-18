@@ -1,0 +1,33 @@
+---
+title: "Final Project"
+output:
+  html_document: default
+  pdf_document: default
+---
+
+Introduction
+My data is from the Carbon Dioxide Information Analysis Center (CDIAC) and consists of the carbon dioxide (co2) emissions of 193 countries from 1800 to 2018. The CDIAC, an office in the U.S. Department of Energy,  collected this data for information analysis. I found this data through Gapminder. I would like to learn generally about the presence of co2 around the world. Specifcally for my project, I would like to find out in what era the most amount of countries began to report co2 emissions. Also, I am curious about whether OECD countries produce more co2 than non-OECD countries. 
+
+Processing
+There was a lot of missing data. To solve this issue I calculated the column (country) co2 emission means, replacing the NAs with the insignificant number 0.000000001 as to not skew the means, and replaced the NAs with the column means. By all means, this is not best practice, but due to the sheer amount of missing data I decided this is the best compromise between efficiency and accuracy. 
+```{r}
+dataset <- read.csv("C:\\Users\\jakes\\Desktop\\DDD-I21\\co2.emissions\\co2.emissions.csv")
+co2 <- dataset
+missing.emissions.by.column <- ifelse(is.na(co2[1:4,]), 0, 1)
+missing.emissions.by.column
+``` 
+Generally, variables will have the name of the data they are using, either co2 or co2.flipped, meaning transposed data. Then, the variable might have the word "applied" in it, meaning the function described in the name has been achieved. Then, the category of data follows, such as "numeric." Finally, what the data is can follow, like "means."  I created one variable from raw counterparts in order to further my project. All the years from the dataset (co2) were modified in order to not include Xs. I sub_str these in order to remove the x values from them, turning them back into numbers using as.numeric; the name of these are in co2.flipped.xless.year. A major decision I made was to replace all NAs with the respective country co2 emission means; again, by all means, this is not best practice, but due to the sheer amount of missing data I decided this is the best compromise between efficiency and accuracy. While I didn't use any large loops; I did use a lot of advanced loops with apply; the reason for this was because the function provided an efficient way to process the entirety of my very large dataset with about 220 columns. 
+
+Analysis
+![Table of First Year Reports](C:\\Users\\jakes\\Desktop\\Dealing with Dirty Data\\Final-Project\\Screenshot1)
+The above table was constructed using the co2.flipped.xless.year, converting the values into a numerical vector and running the vector through 5 different counters for 5 different eras using <  and > conditions. It becomes obvious that as the years go on, more countries begin reporting co2 emission. The reason why 2000 to 2018 has 0 countries beginning to report values is because all the countries are reporting by now; adding up all the eras produces 193 for all the countries. 
+
+![Table of Average Emissions](C:\\Users\\jakes\\Desktop\\Dealing with Dirty Data\\Final-Project\\Screenshot2)
+The above table was constructed using the means of 8 random OECD countries & 8 random non-OECD countries. This was done using the mean function in an apply loop for each type of country. What this demonstrates is that OECD countries are producing way more co2 emissions than non-OECD countries.
+
+![Graph of Average Emissions](C:\\Users\\jakes\\Desktop\\Dealing with Dirty Data\\Final-Project\\Screenshot3)
+
+This bar graph was constructed using the previous means and the addition of categories on the bottom x-axis using a vector. Again, this bar graph demonstrates the much large value of the average co2 emissions for OECD countries.
+
+Conclusions
+From this data, I believe that most countries began to report co2 emissions between 1950 and 2000. Also, OECD countries produce a lot more co2 emissions than non-OECD countries. These outcomes are to be expected considering how many environmental movements occured during the time frame of 1950 to 2000. Also, OECD countries, which tend to be more developed, have more factories and facilities to produce waste like co2. If anyone is to begin working with this data, remember that co2 emissions vary widely, which is important to consider in analysis.  
